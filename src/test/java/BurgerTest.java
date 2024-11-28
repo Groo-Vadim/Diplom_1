@@ -1,31 +1,53 @@
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import praktikum.*;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
+
 import org.junit.Before;
 import org.junit.Test;
 
+@RunWith(org.mockito.junit.MockitoJUnitRunner.class)
 public class BurgerTest {
+
     // экземпляр бургера, который мы будем тестировать
+    @InjectMocks
     private Burger burger;
-    // экземпляр булки
+
+    // экземпляр булки (мок)
+    @Mock
     private Bun bun;
-    // экземпляр начинки
+
+    // экземпляр начинки (мок)
+    @Mock
     private Ingredient filling;
-    // экземпляр соуса
+
+    // экземпляр соуса (мок)
+    @Mock
     private Ingredient sauce;
 
     @Before
     public void setUp() {
+        // Инициализируем моки
+        MockitoAnnotations.openMocks(this);
 
-        //Инициализируем новый бургер и необходимые ингредиенты перед каждым тестом
-        burger = new Burger();
-        bun = new Bun("black bun", 100);
-        filling = new Ingredient(IngredientType.FILLING, "cutlet", 100);
-        sauce = new Ingredient(IngredientType.SAUCE, "hot sauce", 100);
+        // Устанавливаем поведение моков
+        when(bun.getName()).thenReturn("black bun");
+        when(bun.getPrice()).thenReturn(100f);
+        when(filling.getName()).thenReturn("cutlet");
+        when(sauce.getName()).thenReturn("hot sauce");
+        when(filling.getType()).thenReturn(IngredientType.FILLING);
+        when(sauce.getType()).thenReturn(IngredientType.SAUCE);
+        when(sauce.getPrice()).thenReturn(100f);
+        when(filling.getPrice()).thenReturn(100f);
 
         // Устанавливаем булку для бургера
         burger.setBuns(bun);
     }
+
     // Тестируем добавление булки
     @Test
     public void testBunsName() {

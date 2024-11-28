@@ -1,20 +1,36 @@
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import praktikum.*;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.Collection;
+
 import static org.junit.Assert.assertEquals;
 
-
+@RunWith(Parameterized.class)
 public class IngredientTypeTest {
 
-    //Тестируем, что типы имеют корректные названия FILLING
-    @Test
-    public void testIngredientTypeNamesFilling() {
-        assertEquals("Тип начинки должен иметь правильное название.", "FILLING", IngredientType.FILLING.name());
+    private final String expectedName;
+    private final IngredientType ingredientType;
+
+    public IngredientTypeTest(String expectedName, IngredientType ingredientType) {
+        this.expectedName = expectedName;
+        this.ingredientType = ingredientType;
     }
 
-    //Тестируем, что типы имеют корректные названия SAUCE
+    @Parameterized.Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][] {
+                { "FILLING", IngredientType.FILLING },
+                { "SAUCE", IngredientType.SAUCE }
+        });
+    }
+
+    //Тестируем, что типы имеют корректные названия
     @Test
-    public void testIngredientTypeNamesSauce() {
-       assertEquals("Тип соуса должен иметь правильное название.", "SAUCE", IngredientType.SAUCE.name());
+    public void testIngredientTypeNames() {
+        assertEquals("Тип начинки должен иметь правильное название.", expectedName, ingredientType.name());
     }
 
     //Тестируем, что количество типов соответствует ожиданиям
